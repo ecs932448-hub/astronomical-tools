@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cosmic Clues: Astronomy Treasure Hunt</title>
+  <style>
+    :root {
+      --bg-color: #0b0d17;
+      --card-bg: #15192b;
+      --accent-gold: #ffd700;
+      --accent-blue: #4cc9f0;
+      --text-main: #e0e6ed;
+      --text-dim: #94a3b8;
+      --success: #10b981;
+      --error: #ef4444;
+      --border-color: #2e354f;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      max-width: 800px;
+      width: 100%;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 20px;
+    }
+
+    h1 {
+      color: var(--accent-gold);
+      margin-bottom: 8px;
+    }
+
+    p.subtitle {
+      color: var(--text-dim);
+      margin: 0;
+    }
+
+    .part-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+      transition: all 0.3s ease;
+    }
+
+    .part-card.locked {
+      opacity: 0.5;
+      pointer-events: none;
+      filter: grayscale(0.8);
+    }
+
+    .part-title {
+      color: var(--accent-blue);
+      margin-top: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .badge {
+      font-size: 0.8rem;
+      padding: 4px 10px;
+      border-radius: 20px;
+      background: var(--border-color);
+      color: var(--text-dim);
+    }
+
+    .badge.unlocked {
+      background: var(--success);
+      color: #fff;
+    }
+
+    .question-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    select, input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+      background-color: #0b0d17;
+      color: var(--text-main);
+      box-sizing: border-box;
+      margin-bottom: 6px;
+    }
+
+    button.submit-btn {
+      background-color: var(--accent-blue);
+      color: #0b0d17;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      width: 100%;
+      transition: background 0.2s;
+    }
+
+    button.submit-btn:hover {
+      background-color: #3ab0d3;
+    }
+
+    .feedback {
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 6px;
+      display: none;
+      font-weight: 500;
+    }
+
+    .feedback.correct {
+      background-color: rgba(16, 185, 129, 0.2);
+      border: 1px solid var(--success);
+      color: var(--success);
+      display: block;
+    }
+
+    .feedback.incorrect {
+      background-color: rgba(239, 68, 68, 0.2);
+      border: 1px solid var(--error);
+      color: var(--error);
+      display: block;
+    }
+
+    .key-banner {
+      background: rgba(255, 215, 0, 0.1);
+      border: 1px dashed var(--accent-gold);
+      color: var(--accent-gold);
+      padding: 12px;
+      border-radius: 6px;
+      margin-top: 15px;
+      display: none;
+    }
+
+    #final-treasure {
+      display: none;
+      text-align: center;
+      background: linear-gradient(135deg, #15192b, #2e354f);
+      border: 2px solid var(--accent-gold);
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <h1>Cosmic Clues: Treasure Hunt</h1>
+    <p class="subtitle">Introduction to the Scientific Method & Astronomical Tools</p>
+  </header>
+
+  <div class="part-card" id="part1">
+    <h2 class="part-title">
+      Part 1: Ancient Skies & Prehistory
+      <span class="badge" id="badge1">Locked</span>
+    </h2>
+    
+    <div class="question-group">
+      <label>1. Which step of the scientific method relies solely on identifying repeating celestial cycles (like solstices)?</label>
+      <select id="p1q1">
+        <option value="">-- Select Answer --</option>
+        <option value="wrong">Controlled Experimentation</option>
+        <option value="correct">Observation & Pattern Recognition</option>
+        <option value="wrong">Peer Review</option>
+      </select>
+    </div>
+
+    <div class="question-group">
+      <label>2. Which early astronomical tool allowed angle measurements of celestial bodies without glass optics?</label>
+      <select id="p1q2">
+        <option value="">-- Select Answer --</option>
+        <option value="correct">Astrolabe</option>
+        <option value="wrong">Spectrograph</option>
+        <option value="wrong">Radio Dish</option>
+      </select>
+    </div>
+
+    <div class="question-group">
+      <label>3. How did early astronomers move from myth to scientific thinking regarding planetary movement?</label>
+      <select id="p1q3">
+        <option value="">-- Select Answer --</option>
+        <option value="wrong">By ignoring observations that didn't fit their beliefs</option>
+        <option value="correct">By forming testable geometric hypotheses to explain retrogrades</option>
+        <option value="wrong">By claiming planets were guided by mythical beings</option>
+      </select>
+    </div>
+
+    <button class="submit-btn" onclick="checkPart1()">Unlock Part 2</button>
+    <div class="feedback" id="fb1"></div>
+    <div class="key-banner" id="key1">
+      <strong>Part 1 Key Acquired:</strong> "Observation without precise measurement leads to myths; measuring repeating patterns laid the groundwork for systematic testing."
+    </div>
+  </div>
+
+  <div class="part-card locked" id="part2">
+    <h2 class="part-title">
+      Part 2: The Scientific Revolution
+      <span class="badge" id="badge2">Locked</span>
+    </h2>
+    
+    <div class="question-group">
+      <label>1. Galileo's discovery of Jupiter's four moons falsified which major cosmological model?</label>
+      <select id="p2q1">
+        <option value="">-- Select Answer --</option>
+        <option value="wrong">Heliocentric Model</option>
+        <option value="correct">Geocentric (Earth-Centered) Model</option>
+        <option value="wrong">Big Bang Theory</option>
+      </select>
+    </div>
+
+    <div class="question-group">
+      <label>2. How did Kepler demonstrate the scientific method's requirement to revise hypotheses based on Brahe's data?</label>
+      <select id="p2q2">
+        <option value="">-- Select Answer --</option>
+        <option value="correct">By abandoning perfect circular orbits for elliptical ones</option>
+        <option value="wrong">By discarding the observational data that contradicted circles</option>
+        <option value="wrong">By inventing radio astronomy</option>
+      </select>
+    </div>
+
+    <div class="question-group">
+      <label>3. What tool breaks light into spectra to reveal a star's chemical composition without traveling to it?</label>
+      <select id="p2q3">
+        <option value="">-- Select Answer --</option>
+        <option value="wrong">Refracting Lens</option>
+        <option value="wrong">Sundial</option>
+        <option value="correct">Spectrograph / Prism</option>
+      </select>
+    </div>
+
+    <button class="submit-btn" onclick="checkPart2()">Unlock Part 3</button>
+    <div class="feedback" id="fb2"></div>
+    <div class="key-banner" id="key2">
+      <strong>Part 2 Key Acquired:</strong> "New instruments challenge old theories; systematic experimentation forces scientific models to adapt to raw data."
+    </div>
+  </div>
+
+  <div class="part-card locked" id="part3">
+    <h2 class="part-title">
+      Part 3: Present and Future Astronomy
+      <span class="badge" id="badge3">Locked</span>
+    </h2>
+    
+    <div class="question-group">
+      <label>1. What is the main scientific advantage of placing telescopes like JWST in space?</label>
+      <select id="p3q1">
+        <option value="">-- Select Answer --</option>
+        <option value="correct">To avoid atmospheric distortion and light absorption</option>
+        <option value="wrong">To get closer to distant stars by a few hundred kilometers</option>
+        <option value="wrong">Because space telescopes do not require power sources</option>
+      </select>
+    </div>
+
+    <div class="question-group">
+      <label>2. When observations showed cosmic expansion was accelerating, scientists used the scientific method to propose:</label>
+      <select id="p3q2">
+        <option value="">-- Select Answer --</option>
+        <option value="wrong">Geocentrism</option>
+        <option value="correct">Dark Energy</option>
+        <option value="wrong">Steady State Theory</option>
+      </select>
+    </div>
+
+    <div class="question-group">
+      <label>3. Advanced non-optical tools like LIGO allow us to detect what type of cosmic phenomenon?</label>
+      <select id="p3q3">
+        <option value="">-- Select Answer --</option>
+        <option value="wrong">Visible Light Rays</option>
+        <option value="wrong">Sunspot Temperatures</option>
+        <option value="correct">Gravitational Waves</option>
+      </select>
+    </div>
+
+    <button class="submit-btn" onclick="checkPart3()">Complete Treasure Hunt</button>
+    <div class="feedback" id="fb3"></div>
+  </div>
+
+  <div class="part-card" id="final-treasure">
+    <h2 style="color: var(--accent-gold);">Treasure Unlocked!</h2>
+    <p>You have successfully traced the evolution of astronomy and the scientific method across human history.</p>
+    <p><strong>Core Takeaway:</strong> Technology expands what we can observe, while the scientific method provides the self-correcting framework to understand those discoveries accurately.</p>
+  </div>
+</div>
+
+<script>
+  // Initialize state
+  document.getElementById('badge1').innerText = 'Active';
+  document.getElementById('badge1').classList.add('unlocked');
+
+  function checkPart1() {
+    const q1 = document.getElementById('p1q1').value;
+    const q2 = document.getElementById('p1q2').value;
+    const q3 = document.getElementById('p1q3').value;
+    const fb = document.getElementById('fb1');
+
+    if (q1 === 'correct' && q2 === 'correct' && q3 === 'correct') {
+      fb.className = 'feedback correct';
+      fb.innerText = 'All answers correct! Part 1 Clue Key unlocked.';
+      document.getElementById('key1').style.display = 'block';
+      document.getElementById('part2').classList.remove('locked');
+      document.getElementById('badge2').innerText = 'Active';
+      document.getElementById('badge2').classList.add('unlocked');
+    } else {
+      fb.className = 'feedback incorrect';
+      fb.innerText = 'Some answers are incorrect or missing. Review your answers and try again.';
+    }
+  }
+
+  function checkPart2() {
+    const q1 = document.getElementById('p2q1').value;
+    const q2 = document.getElementById('p2q2').value;
+    const q3 = document.getElementById('p2q3').value;
+    const fb = document.getElementById('fb2');
+
+    if (q1 === 'correct' && q2 === 'correct' && q3 === 'correct') {
+      fb.className = 'feedback correct';
+      fb.innerText = 'All answers correct! Part 2 Clue Key unlocked.';
+      document.getElementById('key2').style.display = 'block';
+      document.getElementById('part3').classList.remove('locked');
+      document.getElementById('badge3').innerText = 'Active';
+      document.getElementById('badge3').classList.add('unlocked');
+    } else {
+      fb.className = 'feedback incorrect';
+      fb.innerText = 'Some answers are incorrect or missing. Review your answers and try again.';
+    }
+  }
+
+  function checkPart3() {
+    const q1 = document.getElementById('p3q1').value;
+    const q2 = document.getElementById('p3q2').value;
+    const q3 = document.getElementById('p3q3').value;
+    const fb = document.getElementById('fb3');
+
+    if (q1 === 'correct' && q2 === 'correct' && q3 === 'correct') {
+      fb.className = 'feedback correct';
+      fb.innerText = 'All answers correct!';
+      document.getElementById('final-treasure').style.display = 'block';
+      document.getElementById('final-treasure').scrollIntoView({ behavior: 'smooth' });
+    } else {
+      fb.className = 'feedback incorrect';
+      fb.innerText = 'Some answers are incorrect or missing. Review your answers and try again.';
+    }
+  }
+</script>
+
+</body>
